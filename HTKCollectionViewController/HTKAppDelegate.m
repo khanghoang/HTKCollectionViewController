@@ -7,12 +7,18 @@
 //
 
 #import "HTKAppDelegate.h"
+#import "HTKCollectionViewController.h"
 
 @implementation HTKAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    HTKCollectionViewController *collection = [[HTKCollectionViewController alloc] init];
+    self.window.rootViewController = collection;
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 							

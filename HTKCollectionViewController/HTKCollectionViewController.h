@@ -1,5 +1,5 @@
 //
-//  HTKViewController.h
+//  HTKCollectionViewController.h
 //  HTKCollectionViewController
 //
 //  Created by Triệu Khang on 16/10/13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HTKViewController : UIViewController
+@interface HTKCollectionViewController : UIViewController
 
 @end
