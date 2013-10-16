@@ -7,6 +7,7 @@
 //
 
 #import "HTKCollectionViewController.h"
+#import "HTKCollectionViewLayout.h"
 
 @interface HTKCollectionViewController ()
 <
@@ -25,13 +26,10 @@ UICollectionViewDelegate
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    HTKCollectionViewLayout *layout = [[HTKCollectionViewLayout alloc] init];
     
-    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    flowLayout.itemSize = CGSizeMake(self.view.frame.size.height,
-                                     self.view.frame.size.width);
-    flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    
-    self.collectionView.collectionViewLayout = flowLayout;
+    self.collectionView.collectionViewLayout = layout;
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
 }
 
