@@ -21,6 +21,7 @@
 		B41188DD180E383D00171104 /* HTKCollectionViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B41188DC180E383D00171104 /* HTKCollectionViewControllerTests.m */; };
 		B41188E9180E388000171104 /* HTKCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B41188E7180E388000171104 /* HTKCollectionViewController.m */; };
 		B41188EA180E388000171104 /* HTKCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B41188E8180E388000171104 /* HTKCollectionViewController.xib */; };
+		B41188ED180E43A900171104 /* HTKCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B41188EC180E43A900171104 /* HTKCollectionViewLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		B41188E6180E388000171104 /* HTKCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTKCollectionViewController.h; sourceTree = "<group>"; };
 		B41188E7180E388000171104 /* HTKCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTKCollectionViewController.m; sourceTree = "<group>"; };
 		B41188E8180E388000171104 /* HTKCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HTKCollectionViewController.xib; sourceTree = "<group>"; };
+		B41188EB180E43A900171104 /* HTKCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTKCollectionViewLayout.h; sourceTree = "<group>"; };
+		B41188EC180E43A900171104 /* HTKCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTKCollectionViewLayout.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +117,8 @@
 			children = (
 				B41188C0180E383D00171104 /* HTKAppDelegate.h */,
 				B41188C1180E383D00171104 /* HTKAppDelegate.m */,
+				B41188EB180E43A900171104 /* HTKCollectionViewLayout.h */,
+				B41188EC180E43A900171104 /* HTKCollectionViewLayout.m */,
 				B41188E6180E388000171104 /* HTKCollectionViewController.h */,
 				B41188E7180E388000171104 /* HTKCollectionViewController.m */,
 				B41188E8180E388000171104 /* HTKCollectionViewController.xib */,
@@ -250,6 +255,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B41188ED180E43A900171104 /* HTKCollectionViewLayout.m in Sources */,
 				B41188C2180E383D00171104 /* HTKAppDelegate.m in Sources */,
 				B41188E9180E388000171104 /* HTKCollectionViewController.m in Sources */,
 				B41188BE180E383D00171104 /* main.m in Sources */,
