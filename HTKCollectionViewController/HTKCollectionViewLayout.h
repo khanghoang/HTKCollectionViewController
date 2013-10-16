@@ -10,6 +10,9 @@
 
 @interface HTKCollectionViewLayout : UICollectionViewLayout
 
+- (CGRect)frameForItemAtIndexPath:(NSIndexPath *)indexPath;
++ (CGRect)frameForItemAtIndexPath:(NSIndexPath *)indexPath;
+
 @end
 
 

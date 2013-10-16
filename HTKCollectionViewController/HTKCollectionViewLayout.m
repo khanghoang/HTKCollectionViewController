@@ -84,4 +84,12 @@
     return CGRectMake(originX, originY, 768, 1024);
 }
 
++ (CGRect)frameForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat originX = 768 * indexPath.section;
+    CGFloat originY = indexPath.row * 1024;
+    
+    return CGRectMake(originX, originY, 768, 1024);
+}
+
 @end

@@ -12,12 +12,23 @@
 @interface HTKCollectionViewController ()
 <
 UICollectionViewDataSource,
-UICollectionViewDelegate
+UICollectionViewDelegate,
+UIScrollViewDelegate
 >
+
+typedef enum ScrollDirection {
+    ScrollDirectionNone,
+    ScrollDirectionRight,
+    ScrollDirectionLeft,
+    ScrollDirectionUp,
+    ScrollDirectionDown,
+    ScrollDirectionCrazy,
+} ScrollDirection;
 
 #define getrandom(min, max) ((rand()%(int)(((max) + 1)-(min)))+ (min))
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (nonatomic, assign) NSInteger lastContentOffset;
 
 @end
 
@@ -30,6 +41,7 @@ UICollectionViewDelegate
     HTKCollectionViewLayout *layout = [[HTKCollectionViewLayout alloc] init];
     
     self.collectionView.collectionViewLayout = layout;
+    self.collectionView.pagingEnabled = YES;
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
 }
 
@@ -57,6 +69,64 @@ UICollectionViewDelegate
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 10;
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+//    ScrollDirection scrollDirection;
+//    if (self.lastContentOffset > scrollView.contentOffset.x)
+//        scrollDirection = ScrollDirectionRight;
+//    else if (self.lastContentOffset < scrollView.contentOffset.x)
+//        scrollDirection = ScrollDirectionLeft;
+//    
+//    self.lastContentOffset = scrollView.contentOffset.x;
+//    
+//    NSIndexPath *currentIndexPath = [self getIndexPathBeforeScroll];
+//    NSIndexPath *nextIndexPath = [self nextIndexPathWithDirection:ScrollDirectionRight
+//                                              andCurrentIndexPath:currentIndexPath];
+//    CGRect nextFrame = [self getFrameOfIndexPath:nextIndexPath];
+//    
+//    [scrollView scrollRectToVisible:nextFrame
+//                           animated:NO];
+//    
+}
+
+- (NSIndexPath *)getIndexPathBeforeScroll
+{
+    UIScrollView *scrollView = (UIScrollView *)self.collectionView;
+    return [self indexPathWithPoint:scrollView.contentOffset];
+}
+
+- (NSIndexPath *)indexPathWithPoint:(CGPoint)point
+{
+    NSInteger row = point.x / 768;
+    NSInteger section = point.y / 1024;
+    
+    return [NSIndexPath indexPathForRow:row inSection:section];
+}
+
+- (NSIndexPath *)nextIndexPathWithDirection:(ScrollDirection)direction
+                    andCurrentIndexPath:(NSIndexPath *)currentIndexPath
+{
+    NSInteger row = currentIndexPath.row;
+    NSInteger section = currentIndexPath.section;
+    
+    if (direction == ScrollDirectionRight) {
+        row ++;
+    }
+    
+    return [NSIndexPath indexPathForRow:row
+                              inSection:section];
+}
+
+- (CGRect)getFrameOfIndexPath:(NSIndexPath *)indexPath
+{
+    return [HTKCollectionViewLayout frameForItemAtIndexPath:indexPath];
 }
 
 @end
