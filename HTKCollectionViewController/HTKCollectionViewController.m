@@ -46,13 +46,26 @@ typedef enum ScrollDirection {
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
     
     [self removeAllOldGuestures];
-    
-    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(onSwipeRight:)];
-    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
-    swipeRight.numberOfTouchesRequired = 1;
-    [self.collectionView addGestureRecognizer:swipeRight];
+    [self.collectionView addGestureRecognizer:[self swipeRightGesture]];
 }
 
+#pragma mark - Gesture Factory
+- (UIGestureRecognizer *)swipeRightGesture
+{
+    SEL swipeRightSelector = @selector(onSwipeRight:);
+    return [self swipeGestureWithDirection:UISwipeGestureRecognizerDirectionRight andSelector:swipeRightSelector];
+}
+
+- (UIGestureRecognizer *)swipeGestureWithDirection:(UISwipeGestureRecognizerDirection)direction
+                                       andSelector:(SEL)seletor;
+{
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:seletor];
+    swipe.direction = direction;
+    swipe.numberOfTouchesRequired = 1;
+    return swipe;
+}
+
+#pragma mark - Utilities
 - (void)removeAllOldGuestures
 {
     NSArray *arrayGuestures = [self.collectionView gestureRecognizers];
