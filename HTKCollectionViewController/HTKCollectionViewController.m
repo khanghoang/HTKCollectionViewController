@@ -13,7 +13,8 @@
 <
 UICollectionViewDataSource,
 UICollectionViewDelegate,
-UIScrollViewDelegate
+UIScrollViewDelegate,
+UIGestureRecognizerDelegate
 >
 
 typedef enum ScrollDirection {
@@ -43,6 +44,13 @@ typedef enum ScrollDirection {
     self.collectionView.collectionViewLayout = layout;
     self.collectionView.pagingEnabled = YES;
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
+    
+//    self.collectionView.gestureRecognizers = nil;
+    
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(onSwipeRight:)];
+    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    swipeRight.numberOfTouchesRequired = 1;
+    [self.collectionView addGestureRecognizer:swipeRight];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -127,6 +135,20 @@ typedef enum ScrollDirection {
 - (CGRect)getFrameOfIndexPath:(NSIndexPath *)indexPath
 {
     return [HTKCollectionViewLayout frameForItemAtIndexPath:indexPath];
+}
+
+#pragma mark - Swipe gestures
+- (void)onSwipeRight:(id)sender{
+    NSLog(@"Swipe Right");
+}
+
+#pragma mark - Guesture Delegate
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([gestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]]) {
+        return YES;
+    }
+    return NO;
 }
 
 @end
