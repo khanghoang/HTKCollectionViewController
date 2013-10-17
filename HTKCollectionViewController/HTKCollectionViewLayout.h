@@ -11,7 +11,8 @@
 @interface HTKCollectionViewLayout : UICollectionViewLayout
 
 - (CGRect)frameForItemAtIndexPath:(NSIndexPath *)indexPath;
-+ (CGRect)frameForItemAtIndexPath:(NSIndexPath *)indexPath;
+- (CGRect)getFrameOfIndexPath:(NSIndexPath *)indexPath;
+- (NSIndexPath *)indexPathWithPoint:(CGPoint)point;
 
 @end
 

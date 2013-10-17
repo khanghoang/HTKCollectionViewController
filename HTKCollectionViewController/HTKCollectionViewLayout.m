@@ -16,6 +16,26 @@
 
 @implementation HTKCollectionViewLayout
 
+- (CGFloat)heightOfCollectionView
+{
+    if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
+    {
+        return self.collectionView.frame.size.height;
+    }
+    
+    return self.collectionView.frame.size.width;
+}
+
+- (CGFloat)widthOfCollectionView
+{
+    if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
+    {
+        return self.collectionView.frame.size.width;
+    }
+    
+    return self.collectionView.frame.size.height;
+}
+
 - (void)prepareLayout
 {
     NSMutableDictionary *newLayoutInfo = [NSMutableDictionary dictionary];
@@ -63,7 +83,8 @@
 
 - (CGSize)collectionViewContentSize
 {
-    return CGSizeMake(10 * 768, 1024 * self.collectionView.numberOfSections);
+    return CGSizeMake(10 * [self widthOfCollectionView],
+                      self.collectionView.numberOfSections * [self heightOfCollectionView]);
 }
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -78,18 +99,27 @@
 
 - (CGRect)frameForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat originX = 768 * indexPath.row;
-    CGFloat originY = indexPath.section* 1024;
+    CGFloat originX = indexPath.row * [self widthOfCollectionView];
+    CGFloat originY = indexPath.section * [self heightOfCollectionView];
     
-    return CGRectMake(originX, originY, 768, 1024);
+    return CGRectMake(originX, originY, [self widthOfCollectionView], [self heightOfCollectionView]);
 }
 
-+ (CGRect)frameForItemAtIndexPath:(NSIndexPath *)indexPath
+
+- (CGRect)getFrameOfIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat originX = 768 * indexPath.row;
-    CGFloat originY = indexPath.section* 1024;
+    NSInteger x = indexPath.row *  [self widthOfCollectionView];
+    NSInteger y = indexPath.section * self.collectionView.frame.size.height;
     
-    return CGRectMake(originX, originY, 768, 1024);
+    return CGRectMake(x, y,  [self widthOfCollectionView], [self heightOfCollectionView]);
+}
+
+- (NSIndexPath *)indexPathWithPoint:(CGPoint)point
+{
+    NSInteger row = point.x /  [self widthOfCollectionView];
+    NSInteger section = point.y / [self heightOfCollectionView];
+    
+    return [NSIndexPath indexPathForRow:row inSection:section];
 }
 
 @end

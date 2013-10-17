@@ -99,7 +99,7 @@ typedef enum ScrollDirection {
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     if (!cell) {
-        cell = [[UICollectionViewCell alloc] initWithFrame:self.view.frame];
+        cell = [[UICollectionViewCell alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
     }
     
     UILabel *lblIdentifier = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 250, 100)];
@@ -137,15 +137,7 @@ typedef enum ScrollDirection {
 - (NSIndexPath *)getIndexPathBeforeScroll
 {
     UIScrollView *scrollView = (UIScrollView *)self.collectionView;
-    return [self indexPathWithPoint:scrollView.contentOffset];
-}
-
-- (NSIndexPath *)indexPathWithPoint:(CGPoint)point
-{
-    NSInteger row = point.x / 768;
-    NSInteger section = point.y / 1024;
-    
-    return [NSIndexPath indexPathForRow:row inSection:section];
+    return [(HTKCollectionViewLayout *)self.collectionView.collectionViewLayout indexPathWithPoint:scrollView.contentOffset];
 }
 
 - (NSIndexPath *)nextIndexPathWithDirection:(ScrollDirection)direction
@@ -186,16 +178,6 @@ typedef enum ScrollDirection {
                               inSection:section];
 }
 
-- (CGRect)getFrameOfIndexPath:(NSIndexPath *)indexPath
-{
-//    return [HTKCollectionViewLayout frameForItemAtIndexPath:indexPath];
-    
-    NSInteger x = indexPath.row * 768;
-    NSInteger y = indexPath.section *1024;
-    
-    return CGRectMake(x, y, 768, 1024);
-}
-
 #pragma mark - Swipe gestures
 - (void)onSwipeUp:(id)sender
 {
@@ -231,7 +213,7 @@ typedef enum ScrollDirection {
     NSIndexPath *currentIndexPath = [self getIndexPathBeforeScroll];
     NSIndexPath *nextIndexPath = [self nextIndexPathWithDirection:direction
                                               andCurrentIndexPath:currentIndexPath];
-    CGRect nextIndexPathFrame = [self getFrameOfIndexPath:nextIndexPath];
+    CGRect nextIndexPathFrame = [(HTKCollectionViewLayout *)self.collectionView.collectionViewLayout getFrameOfIndexPath:nextIndexPath];
     
     return nextIndexPathFrame;
 }
