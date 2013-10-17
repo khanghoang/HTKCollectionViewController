@@ -118,17 +118,20 @@ typedef enum ScrollDirection {
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
+    if (0 == section) {
+        return 4;
+    }
+    
+    if (1 == section) {
+        return 1;
+    }
+    
     return 3;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 2;
-}
-
-- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
-{
-    
+    return 3;
 }
 
 - (NSIndexPath *)getIndexPathBeforeScroll
@@ -181,6 +184,7 @@ typedef enum ScrollDirection {
 - (CGRect)getFrameOfIndexPath:(NSIndexPath *)indexPath
 {
 //    return [HTKCollectionViewLayout frameForItemAtIndexPath:indexPath];
+    
     NSInteger x = indexPath.row * 768;
     NSInteger y = indexPath.section *1024;
     
