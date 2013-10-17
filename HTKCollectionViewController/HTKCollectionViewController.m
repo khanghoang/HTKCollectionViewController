@@ -113,12 +113,12 @@ typedef enum ScrollDirection {
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 10;
+    return 3;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 10;
+    return 2;
 }
 
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
@@ -146,21 +146,23 @@ typedef enum ScrollDirection {
     NSInteger row = currentIndexPath.row;
     NSInteger section = currentIndexPath.section;
     
+    NSInteger sectionCount = [self.collectionView numberOfSections];
+    
     switch (direction) {
         case ScrollDirectionRight:
-            row ++;
+            row < [self.collectionView numberOfItemsInSection:section]-1 ? row++ : row;
             break;
             
         case ScrollDirectionLeft:
-            row --;
+            row > 0 ? row-- : row;
             break;
             
         case ScrollDirectionUp:
-            section --;
+            section > 0 ? section-- : section;
             break;
         
         case ScrollDirectionDown:
-            section ++;
+            section < sectionCount-1 ? section++ : section;
             break;
             
         default:

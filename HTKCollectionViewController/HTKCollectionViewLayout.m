@@ -63,7 +63,7 @@
 
 - (CGSize)collectionViewContentSize
 {
-    return CGSizeMake( self.collectionView.numberOfSections * 768, 1024 * 10);
+    return CGSizeMake(10 * 768, 1024 * self.collectionView.numberOfSections);
 }
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -78,16 +78,16 @@
 
 - (CGRect)frameForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat originX = 768 * indexPath.section;
-    CGFloat originY = indexPath.row * 1024;
+    CGFloat originX = 768 * indexPath.row;
+    CGFloat originY = indexPath.section* 1024;
     
     return CGRectMake(originX, originY, 768, 1024);
 }
 
 + (CGRect)frameForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat originX = 768 * indexPath.section;
-    CGFloat originY = indexPath.row * 1024;
+    CGFloat originX = 768 * indexPath.row;
+    CGFloat originY = indexPath.section* 1024;
     
     return CGRectMake(originX, originY, 768, 1024);
 }
