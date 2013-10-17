@@ -98,10 +98,6 @@ typedef enum ScrollDirection {
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    if (!cell) {
-        cell = [[UICollectionViewCell alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
-    }
-    
     UILabel *lblIdentifier = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 250, 100)];
     lblIdentifier.text = [NSString stringWithFormat:@"{%ld, %ld}", (long)indexPath.section, (long)indexPath.row];
     lblIdentifier.font = [UIFont boldSystemFontOfSize:35];

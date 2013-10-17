@@ -18,22 +18,12 @@
 
 - (CGFloat)heightOfCollectionView
 {
-    if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
-    {
-        return self.collectionView.frame.size.height;
-    }
-    
-    return self.collectionView.frame.size.width;
+    return self.collectionView.frame.size.height;
 }
 
 - (CGFloat)widthOfCollectionView
 {
-    if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
-    {
-        return self.collectionView.frame.size.width;
-    }
-    
-    return self.collectionView.frame.size.height;
+    return self.collectionView.frame.size.width;
 }
 
 - (void)prepareLayout
@@ -109,7 +99,7 @@
 - (CGRect)getFrameOfIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger x = indexPath.row *  [self widthOfCollectionView];
-    NSInteger y = indexPath.section * self.collectionView.frame.size.height;
+    NSInteger y = indexPath.section * [self heightOfCollectionView];
     
     return CGRectMake(x, y,  [self widthOfCollectionView], [self heightOfCollectionView]);
 }
