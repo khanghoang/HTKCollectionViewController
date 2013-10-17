@@ -47,9 +47,30 @@ typedef enum ScrollDirection {
     
     [self removeAllOldGuestures];
     [self.collectionView addGestureRecognizer:[self swipeRightGesture]];
+    [self.collectionView addGestureRecognizer:[self swipeLeftGesture]];
+    [self.collectionView addGestureRecognizer:[self swipeDownGesture]];
+    [self.collectionView addGestureRecognizer:[self swipeUpGesture]];
 }
 
 #pragma mark - Gesture Factory
+- (UIGestureRecognizer *)swipeUpGesture
+{
+    SEL swipeUpSelector = @selector(onSwipeUp:);
+    return [self swipeGestureWithDirection:UISwipeGestureRecognizerDirectionUp andSelector:swipeUpSelector];
+}
+
+- (UIGestureRecognizer *)swipeDownGesture
+{
+    SEL swipeDownSelector = @selector(onSwipeDown:);
+    return [self swipeGestureWithDirection:UISwipeGestureRecognizerDirectionDown andSelector:swipeDownSelector];
+}
+
+- (UIGestureRecognizer *)swipeLeftGesture
+{
+    SEL swipeLeftSelector = @selector(onSwipeLeft:);
+    return [self swipeGestureWithDirection:UISwipeGestureRecognizerDirectionLeft andSelector:swipeLeftSelector];
+}
+
 - (UIGestureRecognizer *)swipeRightGesture
 {
     SEL swipeRightSelector = @selector(onSwipeRight:);
@@ -105,26 +126,6 @@ typedef enum ScrollDirection {
     
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-//    ScrollDirection scrollDirection;
-//    if (self.lastContentOffset > scrollView.contentOffset.x)
-//        scrollDirection = ScrollDirectionRight;
-//    else if (self.lastContentOffset < scrollView.contentOffset.x)
-//        scrollDirection = ScrollDirectionLeft;
-//    
-//    self.lastContentOffset = scrollView.contentOffset.x;
-//    
-//    NSIndexPath *currentIndexPath = [self getIndexPathBeforeScroll];
-//    NSIndexPath *nextIndexPath = [self nextIndexPathWithDirection:ScrollDirectionRight
-//                                              andCurrentIndexPath:currentIndexPath];
-//    CGRect nextFrame = [self getFrameOfIndexPath:nextIndexPath];
-//    
-//    [scrollView scrollRectToVisible:nextFrame
-//                           animated:NO];
-//    
-}
-
 - (NSIndexPath *)getIndexPathBeforeScroll
 {
     UIScrollView *scrollView = (UIScrollView *)self.collectionView;
@@ -145,8 +146,25 @@ typedef enum ScrollDirection {
     NSInteger row = currentIndexPath.row;
     NSInteger section = currentIndexPath.section;
     
-    if (direction == ScrollDirectionRight) {
-        row ++;
+    switch (direction) {
+        case ScrollDirectionRight:
+            row ++;
+            break;
+            
+        case ScrollDirectionLeft:
+            row --;
+            break;
+            
+        case ScrollDirectionUp:
+            section --;
+            break;
+        
+        case ScrollDirectionDown:
+            section ++;
+            break;
+            
+        default:
+            break;
     }
     
     return [NSIndexPath indexPathForRow:row
@@ -155,21 +173,52 @@ typedef enum ScrollDirection {
 
 - (CGRect)getFrameOfIndexPath:(NSIndexPath *)indexPath
 {
-    return [HTKCollectionViewLayout frameForItemAtIndexPath:indexPath];
+//    return [HTKCollectionViewLayout frameForItemAtIndexPath:indexPath];
+    NSInteger x = indexPath.row * 768;
+    NSInteger y = indexPath.section *1024;
+    
+    return CGRectMake(x, y, 768, 1024);
 }
 
 #pragma mark - Swipe gestures
-- (void)onSwipeRight:(id)sender{
-    NSLog(@"Swipe Right");
+- (void)onSwipeUp:(id)sender
+{
+    NSLog(@"Swipe Up");
+    CGRect nextFrame = [self frameNextWithDirection:ScrollDirectionDown];
+    [self.collectionView scrollRectToVisible:nextFrame animated:YES];
 }
 
-#pragma mark - Guesture Delegate
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+- (void)onSwipeDown:(id)sender
 {
-    if ([gestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]]) {
-        return YES;
-    }
-    return NO;
+    NSLog(@"Swipe Down");
+    CGRect nextFrame = [self frameNextWithDirection:ScrollDirectionUp];
+    [self.collectionView scrollRectToVisible:nextFrame animated:YES];
 }
+
+- (void)onSwipeRight:(id)sender
+{
+    NSLog(@"Swipe Right");
+    CGRect nextFrame = [self frameNextWithDirection:ScrollDirectionLeft];
+    [self.collectionView scrollRectToVisible:nextFrame animated:YES];
+}
+
+- (void)onSwipeLeft:(id)sender
+{
+    NSLog(@"Swipe Left");
+    
+    CGRect nextFrame = [self frameNextWithDirection:ScrollDirectionRight];
+    [self.collectionView scrollRectToVisible:nextFrame animated:YES];
+}
+
+- (CGRect)frameNextWithDirection:(ScrollDirection)direction
+{
+    NSIndexPath *currentIndexPath = [self getIndexPathBeforeScroll];
+    NSIndexPath *nextIndexPath = [self nextIndexPathWithDirection:direction
+                                              andCurrentIndexPath:currentIndexPath];
+    CGRect nextIndexPathFrame = [self getFrameOfIndexPath:nextIndexPath];
+    
+    return nextIndexPathFrame;
+}
+
 
 @end
