@@ -177,6 +177,11 @@ typedef enum ScrollDirection {
             break;
     }
     
+    NSInteger maxRowIndexInSection = [self.collectionView numberOfItemsInSection:section]-1;
+    if (row > maxRowIndexInSection) {
+        row = maxRowIndexInSection;
+    }
+    
     return [NSIndexPath indexPathForRow:row
                               inSection:section];
 }
