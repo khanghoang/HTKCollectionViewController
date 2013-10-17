@@ -102,6 +102,11 @@ typedef enum ScrollDirection {
         cell = [[UICollectionViewCell alloc] initWithFrame:self.view.frame];
     }
     
+    UILabel *lblIdentifier = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 250, 100)];
+    lblIdentifier.text = [NSString stringWithFormat:@"{%ld, %ld}", (long)indexPath.section, (long)indexPath.row];
+    lblIdentifier.font = [UIFont boldSystemFontOfSize:35];
+    [cell addSubview:lblIdentifier];
+    
     cell.backgroundColor = [self randomColor];
     return cell;
 }
