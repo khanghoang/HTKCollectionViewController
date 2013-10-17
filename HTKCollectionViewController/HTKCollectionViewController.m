@@ -45,12 +45,20 @@ typedef enum ScrollDirection {
     self.collectionView.pagingEnabled = YES;
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
     
-//    self.collectionView.gestureRecognizers = nil;
+    [self removeAllOldGuestures];
     
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(onSwipeRight:)];
     swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
     swipeRight.numberOfTouchesRequired = 1;
     [self.collectionView addGestureRecognizer:swipeRight];
+}
+
+- (void)removeAllOldGuestures
+{
+    NSArray *arrayGuestures = [self.collectionView gestureRecognizers];
+    for (UIGestureRecognizer *gesture in arrayGuestures) {
+        [self.collectionView removeGestureRecognizer:gesture];
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
