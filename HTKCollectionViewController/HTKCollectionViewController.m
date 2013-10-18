@@ -130,6 +130,7 @@ typedef enum ScrollDirection {
     return 3;
 }
 
+#pragma mark - Utilities
 - (NSIndexPath *)getIndexPathBeforeScroll
 {
     UIScrollView *scrollView = (UIScrollView *)self.collectionView;
@@ -174,36 +175,6 @@ typedef enum ScrollDirection {
                               inSection:section];
 }
 
-#pragma mark - Swipe gestures
-- (void)onSwipeUp:(id)sender
-{
-    NSLog(@"Swipe Up");
-    CGRect nextFrame = [self frameNextWithDirection:ScrollDirectionDown];
-    [self.collectionView scrollRectToVisible:nextFrame animated:YES];
-}
-
-- (void)onSwipeDown:(id)sender
-{
-    NSLog(@"Swipe Down");
-    CGRect nextFrame = [self frameNextWithDirection:ScrollDirectionUp];
-    [self.collectionView scrollRectToVisible:nextFrame animated:YES];
-}
-
-- (void)onSwipeRight:(id)sender
-{
-    NSLog(@"Swipe Right");
-    CGRect nextFrame = [self frameNextWithDirection:ScrollDirectionLeft];
-    [self.collectionView scrollRectToVisible:nextFrame animated:YES];
-}
-
-- (void)onSwipeLeft:(id)sender
-{
-    NSLog(@"Swipe Left");
-    
-    CGRect nextFrame = [self frameNextWithDirection:ScrollDirectionRight];
-    [self.collectionView scrollRectToVisible:nextFrame animated:YES];
-}
-
 - (CGRect)frameNextWithDirection:(ScrollDirection)direction
 {
     NSIndexPath *currentIndexPath = [self getIndexPathBeforeScroll];
@@ -214,5 +185,31 @@ typedef enum ScrollDirection {
     return nextIndexPathFrame;
 }
 
+
+
+#pragma mark - Swipe gestures
+- (void)onSwipeUp:(id)sender
+{
+    CGRect nextFrame = [self frameNextWithDirection:ScrollDirectionDown];
+    [self.collectionView scrollRectToVisible:nextFrame animated:YES];
+}
+
+- (void)onSwipeDown:(id)sender
+{
+    CGRect nextFrame = [self frameNextWithDirection:ScrollDirectionUp];
+    [self.collectionView scrollRectToVisible:nextFrame animated:YES];
+}
+
+- (void)onSwipeRight:(id)sender
+{
+    CGRect nextFrame = [self frameNextWithDirection:ScrollDirectionLeft];
+    [self.collectionView scrollRectToVisible:nextFrame animated:YES];
+}
+
+- (void)onSwipeLeft:(id)sender
+{
+    CGRect nextFrame = [self frameNextWithDirection:ScrollDirectionRight];
+    [self.collectionView scrollRectToVisible:nextFrame animated:YES];
+}
 
 @end

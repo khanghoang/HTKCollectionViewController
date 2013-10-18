@@ -71,9 +71,23 @@
     return allAttributes;
 }
 
+- (NSInteger)maxItemAmountOfEachSection
+{
+    NSInteger maxAmount = 0;
+    NSInteger totalSectionCount = [self.collectionView numberOfSections];
+    
+    for (int sectionIndex = 0; sectionIndex < totalSectionCount; sectionIndex++) {
+        if ([self.collectionView numberOfItemsInSection:sectionIndex] > maxAmount) {
+            maxAmount = [self.collectionView numberOfItemsInSection:sectionIndex];
+        }
+    }
+    
+    return maxAmount;
+}
+
 - (CGSize)collectionViewContentSize
 {
-    return CGSizeMake(10 * [self widthOfCollectionView],
+    return CGSizeMake([self maxItemAmountOfEachSection] * [self widthOfCollectionView],
                       self.collectionView.numberOfSections * [self heightOfCollectionView]);
 }
 
